@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diffie-Hellman Key Exchange</title>
+<script>
+
+function generatePrimeNumber() {
+    // Generate a large prime number
+    // For simplicity, let's use a pre-defined prime number
+    return 23;
+}
+
+function calculatePrimitiveRoot(prime) {
+    // Calculate primitive root for the given prime number
+    // For simplicity, let's use a pre-defined primitive root
+    return 5;
+}
+
+function calculatePublicKey(privateKey, prime, primitiveRoot) {
+    // Calculate public key using modular exponentiation
+    return (primitiveRoot ** privateKey) % prime;
+}
+
+function calculateSharedSecret(privateKey, publicKeyReceived, prime) {
+    // Calculate shared secret using modular exponentiation
+    return (publicKeyReceived ** privateKey) % prime;
+}
+
+function initiateKeyExchange() {
+    // Generate a private key for Bob
+    var privateKeyBob = Math.floor(Math.random() * 10) + 1; // Random number between 1 and 10
+
+    // Bob's phase
+    var prime = generatePrimeNumber();
+    var primitiveRoot = calculatePrimitiveRoot(prime);
+    var publicKeyBob = calculatePublicKey(privateKeyBob, prime, primitiveRoot);
+
+    // Send prime, primitive root, and public key to Alice
+    alert("Prime number: " + prime + "\nPrimitive root: " + primitiveRoot + "\nPublic key (Bob's): " + publicKeyBob);
+
+    // Alice's phase
+    var privateKeyAlice = Math.floor(Math.random() * 10) + 1; // Random number between 1 and 10
+    var publicKeyAlice = calculatePublicKey(privateKeyAlice, prime, primitiveRoot);
+
+    // Send public key to Bob
+    var sharedSecretBob = calculateSharedSecret(privateKeyBob, publicKeyAlice, prime);
+    alert("Shared secret (Bob's): " + sharedSecretBob);
+
+    // Bob calculates shared secret
+    var sharedSecretAlice = calculateSharedSecret(privateKeyAlice, publicKeyBob, prime);
+    alert("Shared secret (Alice's): " + sharedSecretAlice);
+}
+
+</script>
+</head>
+<body>
+
+<h2>Diffie-Hellman Key Exchange</h2>
+<button onclick="initiateKeyExchange()">Start Key Exchange</button>
+
+</body>
+</html>
